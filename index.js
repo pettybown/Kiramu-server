@@ -3,14 +3,14 @@ import multer from 'multer';
 import mongoose from 'mongoose';
 import cors from 'cors';
 
-import { registerValidation, loginValidation } from './validations.js';
 
+import { registerValidation, loginValidation } from './validations.js';
 import { handleValidationErrors, checkAuth } from './utils/index.js';
 import { UserController } from './controllers/index.js';
 
 mongoose
   .connect(
-    'mongodb+srv://tokesh04:Alisher04@cluster0.ykuqhl3.mongodb.net/blog?retryWrites=true&w=majority',
+    'mongodb+srv://nurali:9342526754@cluster0.jefxx21.mongodb.net/blog?retryWrites=true&w=majority',
   )
   .then(() => console.log('DB OK'))
   .catch((err) => console.log('DB error', err));
@@ -40,7 +40,14 @@ app.get('/', (req, res) => {
 });
 app.post('/auth/login', loginValidation, handleValidationErrors, UserController.login);
 app.post('/auth/register', registerValidation, handleValidationErrors, UserController.register);
-app.get('/auth/me', checkAuth, UserController.getMe);
+app.get('/auth/profile', checkAuth, UserController.getMe);
+app.get('/anime/jojo', UserController.getAllComments)
+app.post('/anime/jojo', UserController.addComment)
+app.delete('/anime/jojo/id/:id', UserController.deleteComment)
+app.get('/user/favorites', UserController.getUserFavorites);
+app.put('/user/favorites', UserController.addToFavorites);
+app.delete('/user/favorites', UserController.removeFromFavorites);
+
 
 app.listen(1000, (err) => {
   if (err) {
